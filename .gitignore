@@ -1,0 +1,4 @@
+node_modules
+
+# Local tenant-specific settings (real URLs/IDs) - never commit
+config.local.json

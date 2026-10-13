@@ -1,0 +1,14 @@
+{
+  "theme": "bank",
+  "lang": "es",
+  "tenantUrl": "https://openam-example.forgeblocks.com",
+  "realm": "alpha",
+  "clientId": "atm",
+  "scopes": "openid profile email",
+  "service": "",
+  "acrValues": "",
+  "qrTarget": "complete",
+  "showManualCode": true,
+  "idleSeconds": 60,
+  "revokeOnLogout": true
+}

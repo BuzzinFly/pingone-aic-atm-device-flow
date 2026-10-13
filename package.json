@@ -1,0 +1,14 @@
+{
+  "name": "atm-device-flow-poc",
+  "version": "1.0.0",
+  "description": "Mock bank ATM using the OAuth 2.0 device code grant against PingOne Advanced Identity Cloud",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  }
+}

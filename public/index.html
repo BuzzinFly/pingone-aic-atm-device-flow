@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ATM · Device sign-in POC</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%231d4ed8%27/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="bank">
+  <button id="gear" class="poc-dot" type="button" title="POC controls (Alt+Shift+C)" aria-label="POC controls"></button>
+  <button id="inspBtn" class="insp-btn" type="button">{ } Flow inspector</button>
+  <div class="atm">
+    <header class="atm-top">
+      <div class="brand" id="brand"></div>
+      <div class="top-right">
+        <span id="clock" class="clock"></span>
+        <button id="langBtn" class="chip" type="button" aria-label="Language"></button>
+        
+      </div>
+    </header>
+
+    <main id="screen" class="screen" aria-live="polite"></main>
+
+    <footer class="atm-bottom">
+      <div class="slot" aria-hidden="true"><span></span></div>
+      <div id="footHelp" class="foot-help"></div>
+      <div class="slot slot-r" aria-hidden="true"><span></span></div>
+    </footer>
+  </div>
+
+  <!-- POC controls -->
+  <div id="scrim" class="scrim" hidden></div>
+  <aside id="panel" class="panel" hidden aria-label="POC controls">
+    <div class="panel-head">
+      <h2>POC controls</h2>
+      <button id="panelClose" class="btn-ghost" type="button">Close ×</button>
+    </div>
+    <p class="hint">Shortcuts: Alt+Shift+C config · Alt+Shift+T switch theme · Alt+Shift+I inspector</p>
+
+    <h3>Landing page</h3>
+    <div class="seg" id="themeSeg">
+      <button type="button" data-theme-val="bank">Generic bank</button>
+      <button type="button" data-theme-val="regional">Regional bank</button>
+    </div>
+    <label>Language
+      <select id="f_lang"><option value="es">Español</option><option value="en">English</option></select>
+    </label>
+    <label>Bank display name (optional)
+      <input id="f_brandName" type="text" placeholder="Leave empty for theme default" autocomplete="off">
+    </label>
+
+    <h3>PingOne Advanced Identity Cloud</h3>
+    <label>Tenant URL
+      <input id="f_tenantUrl" type="url" placeholder="https://openam-xxx.forgeblocks.com" autocomplete="off" spellcheck="false">
+      <small>Or your custom domain. Origin only, no /am path.</small>
+    </label>
+    <label>Realm
+      <input id="f_realm" type="text" autocomplete="off" spellcheck="false">
+    </label>
+    <label>OAuth 2.0 client ID (device code grant)
+      <input id="f_clientId" type="text" autocomplete="off" spellcheck="false">
+    </label>
+    <label>Scopes (space separated)
+      <input id="f_scopes" type="text" autocomplete="off" spellcheck="false">
+    </label>
+
+    <h3>Flow options</h3>
+    <label>Journey / service (optional)
+      <input id="f_service" type="text" placeholder="Login" autocomplete="off" spellcheck="false">
+      <small>Appended as &amp;service= to the verification URL in the QR code. Empty = tenant's default hosted login.</small>
+    </label>
+    <label>acr_values (optional)
+      <input id="f_acrValues" type="text" autocomplete="off" spellcheck="false">
+      <small>Sent on the device authorization request.</small>
+    </label>
+    <label>QR code contains
+      <select id="f_qrTarget">
+        <option value="complete">verification_uri_complete (code pre-filled)</option>
+        <option value="plain">verification_uri (user types the code)</option>
+      </select>
+    </label>
+    <label>Idle timeout after sign-in (seconds, 0 = off)
+      <input id="f_idleSeconds" type="number" min="0" step="5">
+    </label>
+    <label class="check"><input id="f_showManualCode" type="checkbox"> Show manual code under the QR</label>
+    <label class="check"><input id="f_revokeOnLogout" type="checkbox"> End session also revokes the access token</label>
+
+    <div class="panel-actions">
+      <button id="saveBtn" class="btn" type="button">Save &amp; restart</button>
+      <button id="exportBtn" class="btn-ghost" type="button">Export</button>
+      <button id="importBtn" class="btn-ghost" type="button">Import</button>
+      <button id="resetBtn" class="btn-ghost danger" type="button">Reset</button>
+    </div>
+    <p id="saveNote" class="hint"></p>
+    <input id="importFile" type="file" accept="application/json" hidden>
+  </aside>
+
+  <!-- Inspector -->
+  <aside id="inspector" class="inspector" hidden aria-label="Inspector">
+    <div class="panel-head">
+      <h2>Inspector</h2>
+      <div>
+        <button id="inspClear" class="btn-ghost" type="button">Clear</button>
+        <button id="inspClose" class="btn-ghost" type="button">Close ×</button>
+      </div>
+    </div>
+    <div id="inspBody"></div>
+  </aside>
+
+  <script src="vendor/qrcode.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
